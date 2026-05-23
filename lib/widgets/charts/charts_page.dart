@@ -1,3 +1,5 @@
+import 'package:expensetrackerui/core/date_pickers/models/week_selection.dart';
+import 'package:expensetrackerui/core/date_pickers/week_picker_modal.dart';
 import 'package:expensetrackerui/core/functions/get_bottom_app_bar.dart';
 import 'package:expensetrackerui/core/functions/get_floating_action_button.dart';
 import 'package:expensetrackerui/core/services/sound_service.dart';
@@ -16,6 +18,8 @@ class ChartsPage extends StatefulWidget {
 class _ChartsPageState extends State<ChartsPage> {
   int _selectedIndex = 1; // 1 for Charts
   final soundService = SoundService();
+  String _selectedFilter = 'this_week';
+  WeekSelection? _selectedWeek;
 
   @override
   void initState() {
@@ -32,18 +36,131 @@ class _ChartsPageState extends State<ChartsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  'This Month',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 5,
                 ),
-                Spacer(),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Export', style: TextStyle(fontSize: 16)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
                 ),
-              ],
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      spacing: 12,
+                      children: [
+                        SegmentedButton<String>(
+                          segments: const [
+                            ButtonSegment(
+                              value: 'last_week',
+                              label: Text('Last Week'),
+                              icon: Icon(Icons.calendar_view_week_rounded),
+                            ),
+                          ],
+
+                          selected: {_selectedFilter},
+
+                          onSelectionChanged: (value) {
+                            setState(() {
+                              _selectedFilter = value.first;
+                            });
+                          },
+
+                          style: ButtonStyle(
+                            //visualDensity: VisualDensity.compact,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            padding: WidgetStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 8,
+                              ),
+                            ),
+                            shape: WidgetStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                            backgroundColor: WidgetStateProperty.resolveWith((
+                              states,
+                            ) {
+                              if (states.contains(WidgetState.selected)) {
+                                return Colors.blueAccent.withValues(alpha: 0.1);
+                              }
+                              return Colors.transparent;
+                            }),
+                          ),
+                        ),
+
+                        FilledButton.icon(
+                          onPressed: () async {
+                            await showDialog<WeekSelection>(
+                              context: context,
+                              barrierColor: Colors.black.withValues(alpha: 0.5),
+                              builder: (_) => WeekPickerModal(
+                                onSelected: (weekSelection) {
+                                  setState(() {
+                                    _selectedWeek = weekSelection;
+                                  });
+                                },
+                              ),
+                            );
+                          },
+
+                          icon: const Icon(Icons.tune_rounded, size: 17),
+
+                          label: Column(
+                            children: [
+                              Text(
+                                _selectedWeek?.weekLabel ?? 'Custom',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                _selectedWeek?.rangeLabel ?? 'Select week',
+                                style: const TextStyle(
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          style: FilledButton.styleFrom(
+                            elevation: 0,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 6,
+                            ),
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            backgroundColor: _selectedWeek != null
+                                ? Colors.blueAccent.withValues(alpha: 0.1)
+                                : Colors.transparent,
+                            side: BorderSide(
+                              color: Colors.grey.withValues(alpha: 0.5),
+                              width: 1,
+                            ),
+                            foregroundColor: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(height: 12),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
