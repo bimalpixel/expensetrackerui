@@ -45,9 +45,13 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedIndex: _selectedIndex,
         onItemSelected: (index) {
           soundService.playTap2();
-          setState(() {
-            _selectedIndex = index;
-          });
+          if (index == 1) {
+            Navigator.pushReplacementNamed(context, '/charts');
+          } else {
+            setState(() {
+              _selectedIndex = index;
+            });
+          }
         },
       ),
       floatingActionButton: getFloatingActionButton(

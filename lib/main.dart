@@ -1,4 +1,5 @@
-import 'package:expensetrackerui/widgets/home/MyHomePage.dart';
+import 'package:expensetrackerui/widgets/home/my_home_page.dart';
+import 'package:expensetrackerui/widgets/charts/charts_page.dart';
 import 'package:flutter/material.dart';
 
 import 'core/theme/app_colors.dart';
@@ -20,6 +21,25 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       home: const MyHomePage(title: 'Expense Tracker'),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/home':
+            return PageRouteBuilder(
+              settings: settings,
+              transitionDuration: Duration.zero,
+              pageBuilder: (_, _, _) =>
+                  const MyHomePage(title: 'Expense Tracker'),
+            );
+          case '/charts':
+            return PageRouteBuilder(
+              settings: settings,
+              transitionDuration: Duration.zero,
+              pageBuilder: (_, _, _) => const ChartsPage(title: 'Charts'),
+            );
+          default:
+            return null;
+        }
+      },
     );
   }
 }
