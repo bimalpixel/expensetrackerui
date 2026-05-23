@@ -57,10 +57,6 @@ class _WeekPickerModalState extends State<WeekPickerModal> {
     super.dispose();
   }
 
-  bool _isLeapYear(int year) {
-    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-  }
-
   DateTime _startOfIsoWeek1(int year) {
     final jan4 = DateTime(year, 1, 4);
     return jan4.subtract(Duration(days: jan4.weekday - DateTime.monday));
@@ -115,14 +111,6 @@ class _WeekPickerModalState extends State<WeekPickerModal> {
     final start = _isoWeekStartDate(_selectedYear, weekIndex);
     final end = _isoWeekEndDate(_selectedYear, weekIndex);
     return '${start.day} ${_monthNames[start.month - 1]} - ${end.day} ${_monthNames[end.month - 1]}';
-  }
-
-  DateTime _buildSelectedDate() {
-    final week = _selectedWeekIndex;
-    if (week == null) {
-      return DateTime(_selectedYear, 1, 1);
-    }
-    return _isoWeekStartDate(_selectedYear, week);
   }
 
   void _handleYearChanged(int value) {
@@ -250,7 +238,7 @@ class _WeekPickerModalState extends State<WeekPickerModal> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<int>(
-                value: _selectedYear,
+                initialValue: _selectedYear,
                 isDense: true,
                 isExpanded: true,
                 decoration: InputDecoration(
@@ -341,9 +329,8 @@ class _WeekPickerModalState extends State<WeekPickerModal> {
                           boxShadow: selected
                               ? [
                                   BoxShadow(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary.withOpacity(0.18),
+                                    color: Theme.of(context).colorScheme.primary
+                                        .withValues(alpha: 0.18),
                                     blurRadius: 10,
                                     offset: const Offset(0, 4),
                                   ),
@@ -374,9 +361,8 @@ class _WeekPickerModalState extends State<WeekPickerModal> {
                               style: TextStyle(
                                 fontSize: 10,
                                 color: selected
-                                    ? Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimary.withOpacity(0.85)
+                                    ? Theme.of(context).colorScheme.onPrimary
+                                          .withValues(alpha: 0.85)
                                     : Theme.of(
                                         context,
                                       ).colorScheme.onSurfaceVariant,
