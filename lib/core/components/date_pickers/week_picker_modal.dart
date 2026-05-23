@@ -1,4 +1,4 @@
-import 'package:expensetrackerui/core/date_pickers/models/week_selection.dart';
+import 'package:expensetrackerui/core/components/date_pickers/models/week_selection.dart';
 import 'package:flutter/material.dart';
 
 /// A centered ISO-8601 week picker dialog.

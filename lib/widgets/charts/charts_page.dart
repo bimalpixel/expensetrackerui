@@ -1,5 +1,6 @@
-import 'package:expensetrackerui/core/date_pickers/models/week_selection.dart';
-import 'package:expensetrackerui/core/date_pickers/week_picker_modal.dart';
+import 'package:expensetrackerui/core/components/charts/donut_chart.dart';
+import 'package:expensetrackerui/core/components/date_pickers/models/week_selection.dart';
+import 'package:expensetrackerui/core/components/date_pickers/week_picker_modal.dart';
 import 'package:expensetrackerui/core/functions/get_bottom_app_bar.dart';
 import 'package:expensetrackerui/core/functions/get_floating_action_button.dart';
 import 'package:expensetrackerui/core/services/sound_service.dart';
@@ -162,6 +163,17 @@ class _ChartsPageState extends State<ChartsPage> {
                     height: 12,
                     thickness: 0.5,
                     color: Color(0xFFCCCCCC),
+                  ),
+                  DonutChart(
+                    size: 240,
+                    thickness: 60,
+                    separatorWidth: 6,
+                    slices: const [
+                      PieSlice(value: 40, color: Colors.blue, label: '40%'),
+                      PieSlice(value: 30, color: Colors.orange, label: '30%'),
+                      PieSlice(value: 15, color: Colors.purple, label: '15%'),
+                      PieSlice(value: 15, color: Colors.green, label: '15%'),
+                    ],
                   ),
                 ],
               ),
