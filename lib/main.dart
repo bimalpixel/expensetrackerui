@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             return PageRouteBuilder(
               settings: settings,
               transitionDuration: Duration.zero,
-              pageBuilder: (_, _, _) => const ChartsPage(title: 'Charts'),
+              pageBuilder: (_, _, _) => const ChartsPage(title: 'Expenses'),
             );
           default:
             return null;

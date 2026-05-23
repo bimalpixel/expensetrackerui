@@ -31,13 +31,7 @@ class _ChartsPageState extends State<ChartsPage> {
       backgroundColor: Colors.white,
       appBar: ChartsAppBar(title: widget.title),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            HomeItemGroup(),
-            HomeItemGroup(),
-            HomeItemGroup(),
-            HomePrevNextNav(),
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           ],
         ),
       ),

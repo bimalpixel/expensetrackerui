@@ -2,7 +2,7 @@
 import 'package:expensetrackerui/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class ChartsAppBar extends StatelessWidget implements PreferredSizeWidget {
+class ChartsAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
 
   const ChartsAppBar({super.key, required this.title});
@@ -11,29 +11,33 @@ class ChartsAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(120);
 
   @override
+  State<ChartsAppBar> createState() => _ChartsAppBarState();
+}
+
+class _ChartsAppBarState extends State<ChartsAppBar> {
+  int _selectedSegment = 0;
+  static const _segmentLabels = ['Day', 'Week', 'Month'];
+
+  @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.primary,
       titleSpacing: 20,
-      title: Text(title),
+      title: Text(widget.title),
       centerTitle: true,
-      titleTextStyle: TextStyle(
+      titleTextStyle: const TextStyle(
         fontSize: 18,
         color: Colors.black,
         fontWeight: FontWeight.w500,
       ),
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 12),
-        child: const Icon(Icons.menu),
+      leading: const Padding(
+        padding: EdgeInsets.only(left: 12),
+        child: Icon(Icons.menu),
       ),
       actions: const [
         Padding(
-          padding: EdgeInsets.only(right: 12),
-          child: Icon(Icons.search_outlined, color: Colors.black),
-        ),
-        Padding(
           padding: EdgeInsets.only(right: 20),
-          child: Icon(Icons.calendar_month_outlined, color: Colors.black),
+          child: Icon(Icons.calendar_month_rounded, color: Colors.black),
         ),
       ],
       bottom: PreferredSize(
@@ -49,88 +53,66 @@ class ChartsAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Row(
               spacing: 30,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '2026',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: AppColors.textSecondary,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.black, width: 1),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: List.generate(
+                        _segmentLabels.length,
+                        (index) => _buildSegmentButton(index),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'May',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Expenses',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          '88,702',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Balance',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        '-88,702',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSegmentButton(int index) {
+    final bool isSelected = _selectedSegment == index;
+    final Color backgroundColor = isSelected ? Colors.black : AppColors.primary;
+    final Color foregroundColor = isSelected ? AppColors.primary : Colors.black;
+    final BorderRadius borderRadius;
+
+    if (index == 0) {
+      borderRadius = const BorderRadius.only(
+        topLeft: Radius.circular(8),
+        bottomLeft: Radius.circular(8),
+      );
+    } else if (index == _segmentLabels.length - 1) {
+      borderRadius = const BorderRadius.only(
+        topRight: Radius.circular(8),
+        bottomRight: Radius.circular(8),
+      );
+    } else {
+      borderRadius = BorderRadius.zero;
+    }
+
+    return TextButton(
+      onPressed: () {
+        setState(() {
+          _selectedSegment = index;
+        });
+      },
+      style: TextButton.styleFrom(
+        foregroundColor: foregroundColor,
+        backgroundColor: backgroundColor,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        side: const BorderSide(color: Colors.black, width: 1),
+        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+      ),
+      child: Text(_segmentLabels[index]),
     );
   }
 }
