@@ -52,6 +52,7 @@ class _ChartsAppBarState extends State<ChartsAppBar> {
           child: IntrinsicHeight(
             child: Row(
               spacing: 30,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
@@ -86,13 +87,13 @@ class _ChartsAppBarState extends State<ChartsAppBar> {
 
     if (index == 0) {
       borderRadius = const BorderRadius.only(
-        topLeft: Radius.circular(8),
-        bottomLeft: Radius.circular(8),
+        topLeft: Radius.circular(7),
+        bottomLeft: Radius.circular(7),
       );
     } else if (index == _segmentLabels.length - 1) {
       borderRadius = const BorderRadius.only(
-        topRight: Radius.circular(8),
-        bottomRight: Radius.circular(8),
+        topRight: Radius.circular(7),
+        bottomRight: Radius.circular(7),
       );
     } else {
       borderRadius = BorderRadius.zero;
@@ -117,9 +118,10 @@ class _ChartsAppBarState extends State<ChartsAppBar> {
         style: TextButton.styleFrom(
           foregroundColor: foregroundColor,
           backgroundColor: backgroundColor,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 7),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(borderRadius: borderRadius),
+          minimumSize: Size(10, 10),
         ),
         child: Text(_segmentLabels[index]),
       ),
