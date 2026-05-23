@@ -41,18 +41,18 @@ class _ChartsPageState extends State<ChartsPage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(18),
               ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Column(
-                  children: [
-                    Row(
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       spacing: 12,
                       children: [
@@ -157,9 +157,13 @@ class _ChartsPageState extends State<ChartsPage> {
                         ),
                       ],
                     ),
-                    const Divider(height: 12),
-                  ],
-                ),
+                  ),
+                  const Divider(
+                    height: 12,
+                    thickness: 0.5,
+                    color: Color(0xFFCCCCCC),
+                  ),
+                ],
               ),
             ),
           ],
