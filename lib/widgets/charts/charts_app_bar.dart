@@ -22,6 +22,7 @@ class _ChartsAppBarState extends State<ChartsAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.primary,
+      toolbarHeight: 36,
       titleSpacing: 20,
       title: Text(widget.title),
       centerTitle: true,
@@ -40,39 +41,43 @@ class _ChartsAppBarState extends State<ChartsAppBar> {
           child: Icon(Icons.calendar_month_rounded, color: Colors.black),
         ),
       ],
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            right: 27,
-            left: 20,
-            bottom: 20,
-            top: 10,
-          ),
-          child: IntrinsicHeight(
-            child: Row(
-              spacing: 30,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.black, width: 1),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: List.generate(
-                        _segmentLabels.length,
-                        (index) => _buildSegmentButton(index),
-                      ),
+      bottom: topAppBarBottom(),
+    );
+  }
+
+  PreferredSize topAppBarBottom() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(60),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          right: 27,
+          left: 20,
+          bottom: 20,
+          top: 10,
+        ),
+        child: IntrinsicHeight(
+          child: Row(
+            spacing: 30,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.black, width: 1),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(
+                      _segmentLabels.length,
+                      (index) => _buildSegmentButton(index),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
