@@ -46,6 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
         onItemSelected: (index) {
           soundService.playTap2();
           if (index == 1) {
+            setState(() {
+              _selectedIndex = index;
+            });
             Navigator.pushReplacementNamed(context, '/charts');
           } else {
             setState(() {

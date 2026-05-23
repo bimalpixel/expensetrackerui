@@ -16,7 +16,7 @@ class ChartsPage extends StatefulWidget {
 }
 
 class _ChartsPageState extends State<ChartsPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1; // 1 for Charts
   final soundService = SoundService();
 
   @override
@@ -46,6 +46,9 @@ class _ChartsPageState extends State<ChartsPage> {
         onItemSelected: (index) {
           soundService.playTap2();
           if (index == 0) {
+            setState(() {
+              _selectedIndex = index;
+            });
             Navigator.pushReplacementNamed(context, '/home');
           } else {
             setState(() {
