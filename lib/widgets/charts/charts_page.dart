@@ -3,8 +3,6 @@ import 'package:expensetrackerui/core/functions/get_floating_action_button.dart'
 import 'package:expensetrackerui/core/services/sound_service.dart';
 import 'package:expensetrackerui/widgets/charts/charts_app_bar.dart';
 import 'package:expensetrackerui/widgets/common/custom_fav_location.dart';
-import 'package:expensetrackerui/widgets/home/home_item_group.dart';
-import 'package:expensetrackerui/widgets/home/home_prev_next_nav.dart';
 import 'package:flutter/material.dart';
 
 class ChartsPage extends StatefulWidget {
@@ -31,7 +29,22 @@ class _ChartsPageState extends State<ChartsPage> {
       backgroundColor: Colors.white,
       appBar: ChartsAppBar(title: widget.title),
       body: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'This Month',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                Spacer(),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Export', style: TextStyle(fontSize: 16)),
+                ),
+              ],
+            ),
           ],
         ),
       ),
