@@ -98,21 +98,31 @@ class _ChartsAppBarState extends State<ChartsAppBar> {
       borderRadius = BorderRadius.zero;
     }
 
-    return TextButton(
-      onPressed: () {
-        setState(() {
-          _selectedSegment = index;
-        });
-      },
-      style: TextButton.styleFrom(
-        foregroundColor: foregroundColor,
-        backgroundColor: backgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        side: const BorderSide(color: Colors.black, width: 1),
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(color: Colors.black, width: index == 0 ? 1 : 0.5),
+          right: BorderSide(color: Colors.black, width: index == 2 ? 1 : 0.5),
+          top: BorderSide(color: Colors.black, width: 1),
+          bottom: BorderSide(color: Colors.black, width: 1),
+        ),
+        borderRadius: borderRadius,
       ),
-      child: Text(_segmentLabels[index]),
+      child: TextButton(
+        onPressed: () {
+          setState(() {
+            _selectedSegment = index;
+          });
+        },
+        style: TextButton.styleFrom(
+          foregroundColor: foregroundColor,
+          backgroundColor: backgroundColor,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        ),
+        child: Text(_segmentLabels[index]),
+      ),
     );
   }
 }
