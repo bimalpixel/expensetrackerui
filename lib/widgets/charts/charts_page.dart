@@ -5,6 +5,7 @@ import 'package:expensetrackerui/core/functions/get_bottom_app_bar.dart';
 import 'package:expensetrackerui/core/functions/get_floating_action_button.dart';
 import 'package:expensetrackerui/core/services/sound_service.dart';
 import 'package:expensetrackerui/widgets/charts/charts_app_bar.dart';
+import 'package:expensetrackerui/widgets/charts/expense_distribution.dart';
 import 'package:expensetrackerui/widgets/common/custom_fav_location.dart';
 import 'package:flutter/material.dart';
 
@@ -161,20 +162,57 @@ class _ChartsPageState extends State<ChartsPage> {
                   ),
                   const Divider(
                     height: 12,
-                    thickness: 0.5,
-                    color: Color(0xFFCCCCCC),
+                    thickness: 0.2,
+                    color: Color.fromARGB(255, 223, 222, 222),
                   ),
-                  DonutChart(
-                    size: 240,
-                    thickness: 60,
-                    separatorWidth: 6,
-                    slices: const [
-                      PieSlice(value: 40, color: Colors.blue, label: '40%'),
-                      PieSlice(value: 30, color: Colors.orange, label: '30%'),
-                      PieSlice(value: 15, color: Colors.purple, label: '15%'),
-                      PieSlice(value: 15, color: Colors.green, label: '15%'),
-                    ],
-                    delay: const Duration(milliseconds: 200),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 8,
+                      top: 12,
+                      bottom: 16,
+                    ),
+                    child: Row(
+                      spacing: 16,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DonutChart(
+                          size: 170,
+                          thickness: 30,
+                          separatorWidth: 2,
+                          slices: const [
+                            PieSlice(
+                              value: 40,
+                              color: Colors.blue,
+                              label: '40%',
+                            ),
+                            PieSlice(
+                              value: 30,
+                              color: Colors.orange,
+                              label: '30%',
+                            ),
+                            PieSlice(
+                              value: 15,
+                              color: Colors.purple,
+                              label: '15%',
+                            ),
+                            PieSlice(
+                              value: 15,
+                              color: Colors.green,
+                              label: '15%',
+                            ),
+                          ],
+                          delay: const Duration(milliseconds: 200),
+                          labelStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          duration: const Duration(milliseconds: 500),
+                        ),
+                        ExpenseDistribution(),
+                      ],
+                    ),
                   ),
                 ],
               ),

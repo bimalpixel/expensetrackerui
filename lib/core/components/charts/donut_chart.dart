@@ -194,23 +194,28 @@ class _DonutPainter extends CustomPainter {
       ..strokeCap = StrokeCap.butt
       ..isAntiAlias = true;
 
-    // If you want a clean full donut at the end, hide separators when finished.
-    final showSeparators = true;
-
     // Center hole
     canvas.drawCircle(center, innerRadius, Paint()..color = centerColor);
 
-    double startAngle = -math.pi / 2;
-    double remainingAngle = 2 * math.pi * animationValue;
+    // Track the dynamic starting position of each slice as they grow stacked together
+    double currentStartAngle = -math.pi / 2;
 
-    // First pass: draw all slices
+    // List to keep track of individual visual milestones for separators and labels
+    final List<double> actualStartAngles = [];
+    final List<double> actualSweepAngles = [];
+
+    // Single pass for calculating positions and drawing slices
     for (int i = 0; i < slices.length; i++) {
       final slice = slices[i];
-      final fullSweep = (slice.value / total) * 2 * math.pi;
 
-      if (remainingAngle <= 0) break;
+      // Calculate the ultimate target sweep angle for this slice
+      final targetSweep = (slice.value / total) * 2 * math.pi;
 
-      final visibleSweep = math.max(0.0, math.min(fullSweep, remainingAngle));
+      // Scale THIS individual slice's sweep by the animation value
+      final visibleSweep = targetSweep * animationValue;
+
+      actualStartAngles.add(currentStartAngle);
+      actualSweepAngles.add(visibleSweep);
 
       if (visibleSweep > 0) {
         slicePaint.color = slice.color;
@@ -219,39 +224,48 @@ class _DonutPainter extends CustomPainter {
             center: center,
             outerRadius: outerRadius,
             innerRadius: innerRadius,
-            startAngle: startAngle,
+            startAngle: currentStartAngle,
             sweepAngle: visibleSweep,
           ),
           slicePaint,
         );
       }
 
-      startAngle += fullSweep;
-      remainingAngle -= fullSweep;
+      // Crucial: The NEXT slice starts exactly where THIS animated slice ends
+      currentStartAngle += visibleSweep;
     }
 
-    // Second pass: draw all separators on top
-    if (showSeparators) {
-      startAngle = -math.pi / 2;
+    // Draw separators dynamically trailing behind each growing slice
+    if (animationValue > 0.01) {
       for (int i = 0; i < slices.length; i++) {
-        final fullSweep = (slices[i].value / total) * 2 * math.pi;
+        // Draw separator at the starting boundary of each slice
         _drawSeparator(
           canvas,
           center,
           innerRadius,
           outerRadius,
-          startAngle,
+          actualStartAngles[i],
           separatorPaint,
         );
-        startAngle += fullSweep;
+      }
+
+      // If the animation is not complete, draw a closing separator at the very edge of the stack
+      if (animationValue < 0.99) {
+        _drawSeparator(
+          canvas,
+          center,
+          innerRadius,
+          outerRadius,
+          currentStartAngle,
+          separatorPaint,
+        );
       }
     }
 
-    if (animationValue > 0.98) {
-      startAngle = -math.pi / 2;
-      for (final slice in slices) {
-        final fullSweep = (slice.value / total) * 2 * math.pi;
-        final midAngle = startAngle + fullSweep / 2;
+    // Fade in or display text labels smoothly when nearing completion
+    if (animationValue > 0.95) {
+      for (int i = 0; i < slices.length; i++) {
+        final midAngle = actualStartAngles[i] + (actualSweepAngles[i] / 2);
 
         final labelOffset = Offset(
           center.dx + labelRadius * math.cos(midAngle),
@@ -259,14 +273,12 @@ class _DonutPainter extends CustomPainter {
         );
 
         final tp = TextPainter(
-          text: TextSpan(text: slice.label, style: labelStyle),
+          text: TextSpan(text: slices[i].label, style: labelStyle),
           textAlign: TextAlign.center,
           textDirection: TextDirection.ltr,
         )..layout();
 
         tp.paint(canvas, labelOffset - Offset(tp.width / 2, tp.height / 2));
-
-        startAngle += fullSweep;
       }
     }
   }
