@@ -95,24 +95,27 @@ class _DonutChartState extends State<DonutChart>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.size,
-      height: widget.size,
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, _) {
-          return CustomPaint(
-            painter: _DonutPainter(
-              slices: widget.slices,
-              thickness: widget.thickness,
-              separatorWidth: widget.separatorWidth,
-              centerColor: widget.centerColor,
-              gapColor: widget.gapColor,
-              labelStyle: widget.labelStyle,
-              animationValue: _animation.value,
-            ),
-          );
-        },
+    return AspectRatio(
+      aspectRatio: 1,
+      child: SizedBox(
+        width: widget.size,
+        height: widget.size,
+        child: AnimatedBuilder(
+          animation: _animation,
+          builder: (context, _) {
+            return CustomPaint(
+              painter: _DonutPainter(
+                slices: widget.slices,
+                thickness: widget.thickness,
+                separatorWidth: widget.separatorWidth,
+                centerColor: widget.centerColor,
+                gapColor: widget.gapColor,
+                labelStyle: widget.labelStyle,
+                animationValue: _animation.value,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
