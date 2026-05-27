@@ -5,15 +5,16 @@ class ExpenseDistribution extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        expenseItem('Annaprasan', '48.89%'),
-        expenseItem('Travel', '11.46%'),
-        expenseItem('Home', '10%'),
-        expenseItem('Education', '6.56%'),
-        expenseItem('Other', '22.95%'),
-      ],
+    return SizedBox(
+      child: Column(
+        children: [
+          expenseItem('Annaprasan', '48.89%'),
+          expenseItem('Travel', '11.46%'),
+          expenseItem('Home', '10%'),
+          expenseItem('Education', '6.56%'),
+          expenseItem('Other', '22.95%'),
+        ],
+      ),
     );
   }
 

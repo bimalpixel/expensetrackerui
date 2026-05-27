@@ -168,7 +168,7 @@ class _ChartsPageState extends State<ChartsPage> {
                   Padding(
                     padding: const EdgeInsets.only(
                       left: 16,
-                      right: 8,
+                      right: 20,
                       top: 12,
                       bottom: 16,
                     ),
@@ -176,41 +176,44 @@ class _ChartsPageState extends State<ChartsPage> {
                       spacing: 16,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        DonutChart(
-                          size: 170,
-                          thickness: 30,
-                          separatorWidth: 2,
-                          slices: const [
-                            PieSlice(
-                              value: 40,
-                              color: Colors.blue,
-                              label: '40%',
+                        Expanded(
+                          flex: 1,
+                          child: DonutChart(
+                            size: 170,
+                            thickness: 30,
+                            separatorWidth: 2,
+                            slices: const [
+                              PieSlice(
+                                value: 40,
+                                color: Colors.blue,
+                                label: '40%',
+                              ),
+                              PieSlice(
+                                value: 30,
+                                color: Colors.orange,
+                                label: '30%',
+                              ),
+                              PieSlice(
+                                value: 15,
+                                color: Colors.purple,
+                                label: '15%',
+                              ),
+                              PieSlice(
+                                value: 15,
+                                color: Colors.green,
+                                label: '15%',
+                              ),
+                            ],
+                            delay: const Duration(milliseconds: 200),
+                            labelStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
                             ),
-                            PieSlice(
-                              value: 30,
-                              color: Colors.orange,
-                              label: '30%',
-                            ),
-                            PieSlice(
-                              value: 15,
-                              color: Colors.purple,
-                              label: '15%',
-                            ),
-                            PieSlice(
-                              value: 15,
-                              color: Colors.green,
-                              label: '15%',
-                            ),
-                          ],
-                          delay: const Duration(milliseconds: 200),
-                          labelStyle: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
+                            duration: const Duration(milliseconds: 500),
                           ),
-                          duration: const Duration(milliseconds: 500),
                         ),
-                        ExpenseDistribution(),
+                        Expanded(flex: 1, child: ExpenseDistribution()),
                       ],
                     ),
                   ),
