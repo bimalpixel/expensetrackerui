@@ -174,6 +174,7 @@ class _ChartsPageState extends State<ChartsPage> {
                       PieSlice(value: 15, color: Colors.purple, label: '15%'),
                       PieSlice(value: 15, color: Colors.green, label: '15%'),
                     ],
+                    delay: const Duration(milliseconds: 200),
                   ),
                 ],
               ),

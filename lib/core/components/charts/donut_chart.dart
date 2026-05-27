@@ -18,11 +18,11 @@ class DonutChart extends StatefulWidget {
   final double size;
   final double thickness;
   final double separatorWidth;
-  final Color backgroundColor;
   final Color centerColor;
   final Color gapColor;
   final TextStyle labelStyle;
   final Duration duration;
+  final Duration delay;
 
   const DonutChart({
     super.key,
@@ -30,15 +30,15 @@ class DonutChart extends StatefulWidget {
     this.size = 220,
     this.thickness = 55,
     this.separatorWidth = 6,
-    this.backgroundColor = Colors.redAccent,
-    this.centerColor = const Color(0xFF1E2740),
-    this.gapColor = const Color(0xFF1E2740),
+    this.centerColor = Colors.white,
+    this.gapColor = Colors.white,
     this.labelStyle = const TextStyle(
       color: Colors.white,
       fontSize: 16,
       fontWeight: FontWeight.w700,
     ),
     this.duration = const Duration(milliseconds: 700),
+    this.delay = Duration.zero,
   });
 
   @override
@@ -53,23 +53,37 @@ class _DonutChartState extends State<DonutChart>
   @override
   void initState() {
     super.initState();
+
     _controller = AnimationController(vsync: this, duration: widget.duration);
+
     _animation = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeOutCubic,
     );
-    _controller.forward(from: 0);
+
+    Future.delayed(widget.delay, () {
+      if (mounted) {
+        _controller.forward(from: 0);
+      }
+    });
   }
 
   @override
   void didUpdateWidget(covariant DonutChart oldWidget) {
     super.didUpdateWidget(oldWidget);
+
     if (oldWidget.slices != widget.slices ||
-        oldWidget.duration != widget.duration) {
+        oldWidget.duration != widget.duration ||
+        oldWidget.delay != widget.delay) {
       _controller.duration = widget.duration;
-      _controller
-        ..reset()
-        ..forward();
+
+      _controller.reset();
+
+      Future.delayed(widget.delay, () {
+        if (mounted) {
+          _controller.forward();
+        }
+      });
     }
   }
 
